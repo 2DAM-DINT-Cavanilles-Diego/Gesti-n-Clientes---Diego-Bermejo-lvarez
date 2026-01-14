@@ -8,6 +8,7 @@ package gui;
  *
  * @author dieberalv
  */
+
 public class PantallaPrincipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName());
@@ -32,7 +33,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         clientes = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
-        actividad = new javax.swing.JMenuItem();
+        alta = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,8 +52,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         jMenu3.setText("Clientes");
 
-        actividad.setText("Actividad...");
-        jMenu3.add(actividad);
+        alta.setText("Alta...");
+        alta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                altaActionPerformed(evt);
+            }
+        });
+        jMenu3.add(alta);
 
         jMenuBar1.add(jMenu3);
 
@@ -77,33 +83,38 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void altaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaActionPerformed
+        DialogoAlta dialogoAlta = new DialogoAlta(this, true); // true = modal
+        dialogoAlta.setVisible(true);
+    }//GEN-LAST:event_altaActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+     */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new PantallaPrincipal().setVisible(true));
+    } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+        logger.log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(() -> new PantallaPrincipal().setVisible(true));
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem actividad;
+    private javax.swing.JMenuItem alta;
     private javax.swing.JTable clientes;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;

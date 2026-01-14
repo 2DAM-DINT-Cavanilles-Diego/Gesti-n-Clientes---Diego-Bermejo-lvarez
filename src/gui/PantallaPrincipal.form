@@ -9,10 +9,13 @@
             <Property name="text" type="java.lang.String" value="Clientes"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="actividad">
+            <MenuItem class="javax.swing.JMenuItem" name="alta">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Actividad..."/>
+                <Property name="text" type="java.lang.String" value="Alta..."/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="altaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
