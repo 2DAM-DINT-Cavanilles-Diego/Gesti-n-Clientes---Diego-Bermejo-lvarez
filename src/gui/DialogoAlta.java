@@ -4,12 +4,12 @@
  */
 package gui;
 
-/**
- *
- * @author dieberalv
- */
+import dto.Cliente;
+import java.util.Date;
+
 public class DialogoAlta extends javax.swing.JDialog {
-    
+
+    private PantallaPrincipal pantallaPrincipal;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DialogoAlta.class.getName());
 
     /**
@@ -18,6 +18,7 @@ public class DialogoAlta extends javax.swing.JDialog {
     public DialogoAlta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        pantallaPrincipal = (PantallaPrincipal) parent;
     }
 
     /**
@@ -35,9 +36,9 @@ public class DialogoAlta extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jtfApellidos = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        spinnerFechaAlta = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jcbProvincia = new javax.swing.JComboBox<>();
         btnAlta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -55,16 +56,21 @@ public class DialogoAlta extends javax.swing.JDialog {
         jLabel3.setText("Fecha de alta:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
 
-        jSpinner1.setModel(new javax.swing.SpinnerDateModel());
-        jPanel1.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 290, -1));
+        spinnerFechaAlta.setModel(new javax.swing.SpinnerDateModel());
+        jPanel1.add(spinnerFechaAlta, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 290, -1));
 
         jLabel4.setText("Provincia:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asturias", "Cantabria", "León" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 290, -1));
+        jcbProvincia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asturias", "Cantabria", "León" }));
+        jPanel1.add(jcbProvincia, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 290, -1));
 
         btnAlta.setText("Alta");
+        btnAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAltaActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnAlta, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -81,53 +87,33 @@ public class DialogoAlta extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaActionPerformed
+        String nombre = jtfNombre.getText();
+        String apellidos = jtfApellidos.getText();
+        Date fechaAlta = (Date) spinnerFechaAlta.getValue(); // cast desde Object
+        String provincia = (String) jcbProvincia.getSelectedItem(); // cast desde Object
+        Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia);
+        pantallaPrincipal.anadirCliente(cliente);
+        dispose(); // cierra y libera recursos; mejor que setVisible(false)
+    }//GEN-LAST:event_btnAltaActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                DialogoAlta dialog = new DialogoAlta(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlta;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JComboBox<String> jcbProvincia;
     private javax.swing.JTextField jtfApellidos;
     private javax.swing.JTextField jtfNombre;
+    private javax.swing.JSpinner spinnerFechaAlta;
     // End of variables declaration//GEN-END:variables
 }
