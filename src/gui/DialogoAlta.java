@@ -90,11 +90,25 @@ public class DialogoAlta extends javax.swing.JDialog {
     private void btnAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaActionPerformed
         String nombre = jtfNombre.getText();
         String apellidos = jtfApellidos.getText();
+
+        // Comrpobar si los jtextField están vacíos. Si lo están, se muestra un mensaje de error
+        if (nombre.isEmpty() || apellidos.isEmpty()) {
+            // Mostramos un mensaje de error 
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Todos los campos son obligatorios",
+                    "Faltan campos por rellenar",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return; // Detenemos la ejecución para que no se cree el cliente 
+        }
+
         Date fechaAlta = (Date) spinnerFechaAlta.getValue(); // cast desde Object
         String provincia = (String) jcbProvincia.getSelectedItem(); // cast desde Object
+
         Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia);
         pantallaPrincipal.anadirCliente(cliente);
+
         dispose(); // cierra y libera recursos; mejor que setVisible(false)
+
     }//GEN-LAST:event_btnAltaActionPerformed
 
     /**
