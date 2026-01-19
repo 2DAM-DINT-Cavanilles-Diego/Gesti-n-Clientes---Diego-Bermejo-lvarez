@@ -4,6 +4,7 @@
  */
 package dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -23,14 +24,19 @@ public class Cliente {
         this.provincia = provincia;
     }
 
-    // Getters (puedes generarlos con Alt+Insert) 
+    // Getters  
     public String getNombre() { return nombre; }
     public String getApellidos() { return apellidos; }
     public Date getFechaAlta() { return fechaAlta; }
     public String getProvincia() { return provincia; }
 
-    // Método fundamental para volcar datos a la JTable 
+    
+    // Método para volcar datos a la JTable 
     public String[] toArrayString() {
-        return new String[]{ nombre, apellidos, fechaAlta.toString(), provincia };
+        // Definición del formato de fecha
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return new String[]{ nombre, apellidos, sdf.format(fechaAlta), provincia };
+        
+        
     }
 }

@@ -93,21 +93,17 @@ public class DialogoAlta extends javax.swing.JDialog {
 
         // Comrpobar si los jtextField están vacíos. Si lo están, se muestra un mensaje de error
         if (nombre.isEmpty() || apellidos.isEmpty()) {
-            // Mostramos un mensaje de error 
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Todos los campos son obligatorios",
-                    "Faltan campos por rellenar",
-                    javax.swing.JOptionPane.ERROR_MESSAGE);
-            return; // Detenemos la ejecución para que no se cree el cliente 
+            // Mostrar un mensaje de error 
+            javax.swing.JOptionPane.showMessageDialog(this,"Todos los campos son obligatorios","Faltan campos por rellenar",javax.swing.JOptionPane.ERROR_MESSAGE);return;  
         }
 
-        Date fechaAlta = (Date) spinnerFechaAlta.getValue(); // cast desde Object
-        String provincia = (String) jcbProvincia.getSelectedItem(); // cast desde Object
+        Date fechaAlta = (Date) spinnerFechaAlta.getValue(); 
+        String provincia = (String) jcbProvincia.getSelectedItem(); 
 
         Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia);
         pantallaPrincipal.anadirCliente(cliente);
 
-        dispose(); // cierra y libera recursos; mejor que setVisible(false)
+        dispose();
 
     }//GEN-LAST:event_btnAltaActionPerformed
 
