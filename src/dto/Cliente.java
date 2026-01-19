@@ -4,6 +4,7 @@
  */
 package dto;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
  *
  * @author dieberalv
  */
-public class Cliente {
+public class Cliente implements Serializable {
     private String nombre;
     private String apellidos;
     private Date fechaAlta;

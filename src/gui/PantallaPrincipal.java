@@ -9,6 +9,8 @@ import dto.Cliente;
 
 public class PantallaPrincipal extends javax.swing.JFrame {
 
+    private java.util.List<Cliente> listaClientes = new java.util.ArrayList<>();
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName());
 
     /**
@@ -31,6 +33,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         clientes = new javax.swing.JTable();
         btnEliminar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnCargar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         alta = new javax.swing.JMenuItem();
@@ -57,6 +61,20 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnCargar.setText("Cargar");
+        btnCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarActionPerformed(evt);
+            }
+        });
+
         jMenu3.setText("Clientes");
 
         alta.setText("Alta...");
@@ -77,11 +95,16 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEliminar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnCargar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGuardar)
+                        .addGap(80, 80, 80)
+                        .addComponent(btnEliminar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -90,7 +113,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(btnEliminar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnCargar))
                 .addContainerGap())
         );
 
@@ -106,6 +132,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     //Método para añadir cliente
     public void anadirCliente(Cliente cliente) {
+        //Guardado del objeto
+        listaClientes.add(cliente);
         DefaultTableModel dtm = (DefaultTableModel) clientes.getModel();
         dtm.addRow(cliente.toArrayString());
     }
@@ -127,7 +155,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                     "Advertencia",
                     javax.swing.JOptionPane.WARNING_MESSAGE);
         } else {
-            
+
             // En caso de que haya alguna fila seleccionada, muestra un mensaje de confirmación
             int respuesta = javax.swing.JOptionPane.showConfirmDialog(this,
                     "¿Está seguro de querer eliminar al cliente seleccionado?",
@@ -146,6 +174,36 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+
+        try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(new java.io.FileOutputStream("clientes.dat"))) {
+            oos.writeObject(listaClientes);
+            
+            //Muestra de mensajes en función del resultado
+            javax.swing.JOptionPane.showMessageDialog(this, "Datos guardados con éxito.");
+        } catch (java.io.IOException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+        
+        try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.FileInputStream("clientes.dat"))) {
+            listaClientes = (java.util.List<Cliente>) ois.readObject(); // Leemos la lista
+
+            // Limpiamos la tabla actual y la rellenamos con los datos cargados
+            DefaultTableModel dtm = (DefaultTableModel) clientes.getModel();
+            dtm.setRowCount(0);
+            for (Cliente c : listaClientes) {
+                dtm.addRow(c.toArrayString());
+            }
+            javax.swing.JOptionPane.showMessageDialog(this, "Datos cargados correctamente.");
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "No hay datos previos o error al cargar.");
+        }
+
+    }//GEN-LAST:event_btnCargarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -174,7 +232,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem alta;
+    private javax.swing.JButton btnCargar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JTable clientes;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
