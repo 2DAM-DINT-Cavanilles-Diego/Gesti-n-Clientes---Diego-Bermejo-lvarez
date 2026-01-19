@@ -30,6 +30,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         clientes = new javax.swing.JTable();
+        btnEliminar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         alta = new javax.swing.JMenuItem();
@@ -48,6 +49,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(clientes);
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jMenu3.setText("Clientes");
 
@@ -71,34 +79,73 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEliminar)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 6, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(btnEliminar)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     //Método para inicializar la tabla
-      private void inicializarTabla() {
+    private void inicializarTabla() {
         DefaultTableModel dtm = new DefaultTableModel();
         dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha Alta", "Provincia"});
-        clientes.setModel(dtm); // 'clientes' es la JTable del diseñador
+        clientes.setModel(dtm);
     }
 
-      //Método para añadir cliente
+    //Método para añadir cliente
     public void anadirCliente(Cliente cliente) {
         DefaultTableModel dtm = (DefaultTableModel) clientes.getModel();
         dtm.addRow(cliente.toArrayString());
     }
-    
+
     private void altaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaActionPerformed
         DialogoAlta dialogoAlta = new DialogoAlta(this, true); // true = modal
         dialogoAlta.setVisible(true);
     }//GEN-LAST:event_altaActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+        //Definición de la variable que almacena el índice de la fila seleccionada
+        int filaSeleccionada = clientes.getSelectedRow();
+
+        //Se confirma si hay una fila seleccionada. Si es -1, significa que no hay ninguna seleccionada y rechaza la eliminación.
+        if (filaSeleccionada == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Debe seleccionar un cliente para eliminarlo",
+                    "Advertencia",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+        } else {
+            
+            // En caso de que haya alguna fila seleccionada, muestra un mensaje de confirmación
+            int respuesta = javax.swing.JOptionPane.showConfirmDialog(this,
+                    "¿Está seguro de querer eliminar al cliente seleccionado?",
+                    "Confirmar eliminación",
+                    javax.swing.JOptionPane.YES_NO_OPTION,
+                    javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+            // Si el usuario pulsa "Sí" se procede al borrado de la fila.
+            if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+                DefaultTableModel dtm = (DefaultTableModel) clientes.getModel();
+                dtm.removeRow(filaSeleccionada);
+
+                // Mensaje que confirma la eliminación de la fila
+                javax.swing.JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente");
+            }
+        }
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,12 +174,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem alta;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JTable clientes;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
-  
 
 }
