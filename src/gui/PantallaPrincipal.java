@@ -6,9 +6,11 @@ package gui;
 
 import javax.swing.table.DefaultTableModel;
 import dto.Cliente;
+import javax.swing.table.TableRowSorter;
 
 public class PantallaPrincipal extends javax.swing.JFrame {
 
+    private TableRowSorter<DefaultTableModel> sorter;
     private java.util.List<Cliente> listaClientes = new java.util.ArrayList<>();
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName());
@@ -35,6 +37,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnCargar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldBusqueda = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         alta = new javax.swing.JMenuItem();
@@ -75,6 +79,19 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Buscar:");
+
+        jTextFieldBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBusquedaActionPerformed(evt);
+            }
+        });
+        jTextFieldBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldBusquedaKeyReleased(evt);
+            }
+        });
+
         jMenu3.setText("Clientes");
 
         alta.setText("Alta...");
@@ -96,28 +113,37 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnCargar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
                         .addGap(80, 80, 80)
-                        .addComponent(btnEliminar)))
+                        .addComponent(btnEliminar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jTextFieldBusqueda))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar)
                     .addComponent(btnGuardar)
                     .addComponent(btnCargar))
-                .addContainerGap())
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -128,6 +154,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         DefaultTableModel dtm = new DefaultTableModel();
         dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha Alta", "Provincia"});
         clientes.setModel(dtm);
+
+        // Habilita la ordenación automática al hacer click en los encabezados
+        sorter = new TableRowSorter<>(dtm);
+        clientes.setRowSorter(sorter);
     }
 
     //Método para añadir cliente
@@ -179,7 +209,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(new java.io.FileOutputStream("clientes.dat"))) {
             oos.writeObject(listaClientes);
-            
+
             //Muestra de mensajes en función del resultado
             javax.swing.JOptionPane.showMessageDialog(this, "Datos guardados con éxito.");
         } catch (java.io.IOException e) {
@@ -188,7 +218,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
-        
+
         try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.FileInputStream("clientes.dat"))) {
             listaClientes = (java.util.List<Cliente>) ois.readObject(); // Leemos la lista
 
@@ -204,6 +234,21 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnCargarActionPerformed
+
+    private void jTextFieldBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBusquedaKeyReleased
+
+        // Se almacena el texto escrito en la variable "texto" 
+        String texto = jTextFieldBusqueda.getText();
+
+        // Aplicamos el filtro a la columna Nombre
+        // "(?i)" sirve para que no importe mayúsculas o minúsculas
+        sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + texto, 0));
+
+    }//GEN-LAST:event_jTextFieldBusquedaKeyReleased
+
+    private void jTextFieldBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldBusquedaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -236,9 +281,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JTable clientes;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextFieldBusqueda;
     // End of variables declaration//GEN-END:variables
 
 }
