@@ -40,30 +40,34 @@ public class DialogoAlta extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jcbProvincia = new javax.swing.JComboBox<>();
         btnAlta = new javax.swing.JButton();
+        jtfEmail = new javax.swing.JTextField();
+        jtfTelefono = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Nombre:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
-        jPanel1.add(jtfNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 290, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jPanel1.add(jtfNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 290, -1));
 
         jLabel2.setText("Apellidos:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
-        jPanel1.add(jtfApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 290, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+        jPanel1.add(jtfApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 290, -1));
 
         jLabel3.setText("Fecha de alta:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
 
         spinnerFechaAlta.setModel(new javax.swing.SpinnerDateModel());
-        jPanel1.add(spinnerFechaAlta, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 290, -1));
+        jPanel1.add(spinnerFechaAlta, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 290, -1));
 
         jLabel4.setText("Provincia:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
 
         jcbProvincia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asturias", "Cantabria", "León" }));
-        jPanel1.add(jcbProvincia, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 290, -1));
+        jPanel1.add(jcbProvincia, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 290, -1));
 
         btnAlta.setText("Alta");
         btnAlta.addActionListener(new java.awt.event.ActionListener() {
@@ -72,6 +76,20 @@ public class DialogoAlta extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btnAlta, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, -1, -1));
+
+        jtfEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfEmailActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jtfEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 290, -1));
+        jPanel1.add(jtfTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 290, -1));
+
+        jLabel5.setText("Email:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+
+        jLabel6.setText("Teléfono:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -90,9 +108,11 @@ public class DialogoAlta extends javax.swing.JDialog {
     private void btnAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaActionPerformed
         String nombre = jtfNombre.getText();
         String apellidos = jtfApellidos.getText();
+        String email = jtfEmail.getText();
+        String telefono = jtfTelefono.getText();
 
         // Comrpobar si los jtextField están vacíos. Si lo están, se muestra un mensaje de error
-        if (nombre.isEmpty() || apellidos.isEmpty()) {
+        if (nombre.isEmpty() || apellidos.isEmpty() || email.isEmpty() || telefono.isEmpty()) {
             // Mostrar un mensaje de error 
             javax.swing.JOptionPane.showMessageDialog(this,"Todos los campos son obligatorios","Faltan campos por rellenar",javax.swing.JOptionPane.ERROR_MESSAGE);return;  
         }
@@ -100,12 +120,16 @@ public class DialogoAlta extends javax.swing.JDialog {
         Date fechaAlta = (Date) spinnerFechaAlta.getValue(); 
         String provincia = (String) jcbProvincia.getSelectedItem(); 
 
-        Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia);
+        Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia, email, telefono);
         pantallaPrincipal.anadirCliente(cliente);
 
         dispose();
 
     }//GEN-LAST:event_btnAltaActionPerformed
+
+    private void jtfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfEmailActionPerformed
 
     /**
      * @param args the command line arguments
@@ -120,10 +144,14 @@ public class DialogoAlta extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JComboBox<String> jcbProvincia;
     private javax.swing.JTextField jtfApellidos;
+    private javax.swing.JTextField jtfEmail;
     private javax.swing.JTextField jtfNombre;
+    private javax.swing.JTextField jtfTelefono;
     private javax.swing.JSpinner spinnerFechaAlta;
     // End of variables declaration//GEN-END:variables
 }

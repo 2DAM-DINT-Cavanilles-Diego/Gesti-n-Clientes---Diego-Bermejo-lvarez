@@ -139,15 +139,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
+                        .addGap(87, 87, 87)
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -177,7 +175,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     //Método para inicializar la tabla
     private void inicializarTabla() {
         DefaultTableModel dtm = new DefaultTableModel();
-        dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha Alta", "Provincia"});
+        dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha Alta", "Provincia", "Email", "Teléfono"});
         clientes.setModel(dtm);
 
         // Habilita la ordenación automática al hacer click en los encabezados
